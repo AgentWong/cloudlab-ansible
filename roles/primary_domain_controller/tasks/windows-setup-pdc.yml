@@ -1,0 +1,4 @@
+---
+- hosts: "{{ pdc_hostname }}"
+  roles: 
+  - primary_domain_controller

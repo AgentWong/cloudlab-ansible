@@ -1,0 +1,29 @@
+- name: Change the hostname
+  ansible.windows.win_hostname:
+    name: "{{ new_hostname }}"
+  register: res
+
+- name: Reboot
+  ansible.windows.win_reboot:
+  when: res.reboot_required
+
+- name: Configure DNS
+  win_dns_client:
+    adapter_names: '*'
+    dns_servers:
+    - "{{ amazon_dns }}"
+
+- name: install ad
+  win_domain:
+    dns_domain_name: "{{ domain }}"
+    domain_netbios_name: "{{ netbios_domain }}"
+    safe_mode_password: "{{ password }}"
+  register: ad
+
+- name: reboot server
+  win_reboot:
+    msg: "Installing AD. Rebooting..."
+    pre_reboot_delay: 15
+    reboot_timeout: 600
+    post_reboot_delay: 360
+  when: ad.changed

@@ -1,0 +1,52 @@
+- name: Create org Computers
+  community.windows.win_domain_ou:
+    name: "{{ netbios }} Computers"
+    state: present
+  register: init_org_computers_ou
+
+- name: Create org Users
+  community.windows.win_domain_ou:
+    name: "{{ netbios }} Users"
+    state: present
+  register: init_org_users_ou
+
+- name: Create reverse lookup zone
+  community.windows.win_dns_zone:
+    name: "{{ reverse_lookup_zone }}" #50.168.192.in-addr.arpa
+    replication: forest
+    type: primary
+    state: present
+
+- name: Create PTR record
+  win_shell: ipconfig /registerdns
+
+# The second execution is needed because otherwise the variable only contains 'path' value and not 'ou'
+- name: Poll org Computers
+  community.windows.win_domain_ou:
+    name: "{{ netbios }} Computers"
+    state: present
+  register: org_computers_ou
+
+- name: Poll org Users
+  community.windows.win_domain_ou:
+    name: "{{ netbios }} Users"
+    state: present
+  register: org_users_ou
+
+- name: Redirect default computers
+  win_shell: "redircmp '{{  org_computers_ou['ou']['DistinguishedName']  }}'"
+  when: init_org_computers_ou.changed
+  
+- name: Redirect default users
+  win_shell: "redirusr '{{  org_users_ou['ou']['DistinguishedName']  }}'"
+  when: init_org_users_ou.changed
+
+- name: Create new domain admin
+  community.windows.win_domain_user:
+    name: radmin
+    firstname: Remote
+    surname: Administrator
+    password: "{{ password }}"
+    groups: 
+      - Domain Admins
+      - Enterprise Admins
