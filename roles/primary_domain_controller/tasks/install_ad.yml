@@ -7,10 +7,10 @@
   ansible.windows.win_reboot:
   when: res.reboot_required
 
-#- name: Configure DNS
-#  win_dns_client:
-#    adapter_names: '*'
-#    dns_servers: "{{ amazon_dns }}"
+- name: Configure DNS
+  win_dns_client:
+    adapter_names: '*'
+    dns_servers: "{{ amazon_dns }}"
 
 - name: install ad
   win_domain:
