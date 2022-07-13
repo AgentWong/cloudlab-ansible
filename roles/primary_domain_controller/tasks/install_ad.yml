@@ -10,8 +10,7 @@
 - name: Configure DNS
   win_dns_client:
     adapter_names: '*'
-    dns_servers:
-    - "{{ amazon_dns }}"
+    dns_servers: "{{ amazon_dns }}"
 
 - name: install ad
   win_domain:
