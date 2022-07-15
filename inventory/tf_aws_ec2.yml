@@ -29,6 +29,8 @@ keyed_groups:
     prefix: arch
   - key: tags.Applications
     separator: ''
+  - key: tags.Name
+    separator: ''
   - key: instance_type
     prefix: aws_instance_type
   - key: placement.region
@@ -42,7 +44,6 @@ keyed_groups:
 
 hostnames:
 # a list in order of precedence for hostname variables.
-# 
+  - tag:Name
   - private-ip-address
   - dns-name
-  - tag:Name
