@@ -1,4 +1,9 @@
+- name: Wait for system to become reachable over WinRM
+  wait_for_connection:
+    timeout: 900
+
 - name: Install AD
   include_tasks: install_ad.yml
+  
 - name: Config AD
   include_tasks: config_ad.yml

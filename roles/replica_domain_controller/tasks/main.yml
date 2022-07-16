@@ -1,3 +1,7 @@
+- name: Wait for system to become reachable over WinRM
+  wait_for_connection:
+    timeout: 900
+
 - name: Change the hostname
   ansible.windows.win_hostname:
     name: "{{ new_hostname }}"
@@ -14,16 +18,17 @@
     - "{{ dns_server }}"
 
 - name: install ad
-  win_domain:
+  win_domain_controller:
     dns_domain_name: "{{ domain }}"
-    domain_netbios_name: "{{ netbios }}"
+    domain_admin_user: "{{ domain_admin }}"
+    domain_admin_password: "{{ password }}"
     safe_mode_password: "{{ password }}"
+    state: domain_controller
   register: ad
 
 - name: reboot server
   win_reboot:
     msg: "Installing AD. Rebooting..."
     pre_reboot_delay: 15
-    reboot_timeout: 600
-    post_reboot_delay: 420
+    post_reboot_delay: 120
   when: ad.changed

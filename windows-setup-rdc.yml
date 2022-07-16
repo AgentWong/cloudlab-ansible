@@ -1,0 +1,4 @@
+---
+- hosts: "{{ rdc_hostname }}"
+  roles: 
+  - replica_domain_controller
