@@ -26,4 +26,4 @@
     pre_reboot_delay: 15
     reboot_timeout: 600
     post_reboot_delay: 420
-  when: ad.changed
+  when: ad.reboot_required
