@@ -2,21 +2,6 @@
   wait_for_connection:
     timeout: 900
 
-- name: Change the hostname
-  ansible.windows.win_hostname:
-    name: "{{ new_hostname }}"
-  register: res
-
-- name: Reboot
-  ansible.windows.win_reboot:
-  when: res.reboot_required
-
-- name: Configure DNS
-  win_dns_client:
-    adapter_names: '*'
-    ipv4_addresses: 
-    - "{{ dns_server }}"
-
 - name: install ad
   win_domain_controller:
     dns_domain_name: "{{ domain }}"
