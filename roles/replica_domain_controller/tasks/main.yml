@@ -16,4 +16,4 @@
     msg: "Installing AD. Rebooting..."
     pre_reboot_delay: 15
     post_reboot_delay: 120
-  when: ad.changed
+  when: ad.reboot_required
