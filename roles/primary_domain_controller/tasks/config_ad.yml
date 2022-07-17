@@ -13,15 +13,14 @@
 - name: Split vars
   set_fact: 
     zones: "{{ reverse_lookup_zones.split(',') | list }}"
-    
+
 - name: Create reverse lookup zone
   community.windows.win_dns_zone:
     name: "{{ item }}" #50.168.192.in-addr.arpa
     replication: forest
     type: primary
     state: present
-  loop:
-  - "{{ zones }}"
+  loop: "{{ zones }}"
 
 - name: Create PTR record
   win_shell: ipconfig /registerdns
