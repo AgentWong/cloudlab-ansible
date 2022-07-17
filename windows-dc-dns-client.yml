@@ -20,3 +20,4 @@
       - "{{ rdc_hostname }}"
       - 127.0.0.1
     when: inventory_hostname == rdc_hostname
+    

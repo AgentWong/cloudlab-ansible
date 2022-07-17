@@ -25,7 +25,7 @@
   - name: Configure PDC DNS
     win_dns_client:
       adapter_names: '*'
-      dns_servers:
+      ipv4_addresses:
       - "{{ rdc_hostname }}"
       - "{{ pdc_hostname }}"
       - 127.0.0.1
@@ -33,7 +33,7 @@
   - name: Configure RDC DNS
     win_dns_client:
       adapter_names: '*'
-      dns_servers:
+      ipv4_addresses:
       - "{{ pdc_hostname }}"
       - "{{ rdc_hostname }}"
       - 127.0.0.1
