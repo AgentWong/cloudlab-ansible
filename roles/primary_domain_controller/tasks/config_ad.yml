@@ -61,7 +61,12 @@
 
 - name: Configure NLA Dependencies
   win_service:
-    name: WinRM
+    name: nlasvc
     start_mode: delayed
     dependencies: [ DNS, NTDS ]
     dependency_action: add
+
+- name: Restart NLA
+  win_service:
+    name: nlasvc
+    state: restarted
