@@ -13,12 +13,14 @@
       start_mode: delayed
       dependencies: [ DNS, NTDS ]
       dependency_action: add
+    when: inventory_hostname == rdc_hostname
 
   - name: Restart NLA
     win_service:
       name: nlasvc
       state: restarted
       force_dependent_services: yes
+    when: inventory_hostname == rdc_hostname
 
   - name: Configure PDC DNS
     win_dns_client:
