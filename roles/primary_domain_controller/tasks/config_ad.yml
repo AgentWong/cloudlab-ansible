@@ -70,3 +70,4 @@
   win_service:
     name: nlasvc
     state: restarted
+    force_dependent_services: yes

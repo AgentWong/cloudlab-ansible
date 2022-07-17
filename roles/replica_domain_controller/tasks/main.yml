@@ -17,7 +17,7 @@
     pre_reboot_delay: 15
     post_reboot_delay: 120
   when: ad.reboot_required
-  
+
 - name: Configure NLA Dependencies
   win_service:
     name: nlasvc
@@ -29,3 +29,4 @@
   win_service:
     name: nlasvc
     state: restarted
+    force_dependent_services: yes
