@@ -6,6 +6,8 @@
       adapter_names: '*'
       ipv4_addresses: 
       - "{{ dns_server }}"
+  - name: Set DNS Suffix
+    win_shell: "Set-DnsClientGlobalSetting -SuffixSearchList @('{{ domain }}')"
   - name: Join Domain
     win_domain_membership:
       dns_domain_name: "{{ domain }}"

@@ -10,12 +10,18 @@
     state: present
   register: init_org_users_ou
 
+- name: Split vars
+  set_fact: 
+    zones: "{{ reverse_lookup_zones.split(',') | list }}"
+    
 - name: Create reverse lookup zone
   community.windows.win_dns_zone:
-    name: "{{ reverse_lookup_zone }}" #50.168.192.in-addr.arpa
+    name: "{{ item }}" #50.168.192.in-addr.arpa
     replication: forest
     type: primary
     state: present
+  loop:
+  - "{{ zones }}"
 
 - name: Create PTR record
   win_shell: ipconfig /registerdns
@@ -50,3 +56,13 @@
     groups: 
       - Domain Admins
       - Enterprise Admins
+
+- name: Set DNS Suffix
+  win_shell: "Set-DnsClientGlobalSetting -SuffixSearchList @('{{ domain }}')"
+
+- name: Configure NLA Dependencies
+  win_service:
+    name: WinRM
+    start_mode: delayed
+    dependencies: [ DNS, NTDS ]
+    dependency_action: add
