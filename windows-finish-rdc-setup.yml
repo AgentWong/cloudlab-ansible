@@ -1,10 +1,11 @@
 ---
-- hosts: "{{ rdc_hostname }}"
+- hosts: 
+  - "{{ pdc_hostname }}"
+  - "{{ rdc_hostname }}"
   tasks:
-  - name: reboot server
-    win_reboot:
-      pre_reboot_delay: 15
-      post_reboot_delay: 120
+  - name: Wait for system to become reachable over WinRM
+    wait_for_connection:
+      timeout: 900
 
   - name: Configure NLA Dependencies
     win_service:
@@ -18,3 +19,20 @@
       name: nlasvc
       state: restarted
       force_dependent_services: yes
+
+  - name: Configure PDC DNS
+    win_dns_client:
+      adapter_names: '*'
+      dns_servers:
+      - "{{ rdc_hostname }}"
+      - "{{ pdc_hostname }}"
+      - 127.0.0.1
+    when: inventory_hostname == pdc_hostname
+  - name: Configure RDC DNS
+    win_dns_client:
+      adapter_names: '*'
+      dns_servers:
+      - "{{ pdc_hostname }}"
+      - "{{ rdc_hostname }}"
+      - 127.0.0.1
+    when: inventory_hostname == rdc_hostname
