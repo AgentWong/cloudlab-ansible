@@ -10,10 +10,8 @@
     safe_mode_password: "{{ password }}"
     state: domain_controller
   register: ad
-
 - name: reboot server
   win_reboot:
-    msg: "Installing AD. Rebooting..."
     pre_reboot_delay: 15
     post_reboot_delay: 120
   when: ad.reboot_required

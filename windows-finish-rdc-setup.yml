@@ -1,0 +1,20 @@
+---
+- hosts: "{{ rdc_hostname }}"
+  tasks:
+  - name: reboot server
+    win_reboot:
+      pre_reboot_delay: 15
+      post_reboot_delay: 120
+
+  - name: Configure NLA Dependencies
+    win_service:
+      name: nlasvc
+      start_mode: delayed
+      dependencies: [ DNS, NTDS ]
+      dependency_action: add
+
+  - name: Restart NLA
+    win_service:
+      name: nlasvc
+      state: restarted
+      force_dependent_services: yes
