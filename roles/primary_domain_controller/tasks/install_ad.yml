@@ -17,7 +17,6 @@
 - name: install ad
   win_domain:
     dns_domain_name: "{{ domain }}"
-    domain_netbios_name: "{{ netbios }}"
     safe_mode_password: "{{ password }}"
   register: ad
 
