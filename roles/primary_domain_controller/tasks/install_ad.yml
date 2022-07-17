@@ -12,6 +12,7 @@
     adapter_names: '*'
     ipv4_addresses: 
     - "{{ dns_server }}"
+  when: res.changed
 
 - name: install ad
   win_domain:
