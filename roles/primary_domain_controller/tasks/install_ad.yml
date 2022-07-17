@@ -19,6 +19,9 @@
     dns_domain_name: "{{ domain }}"
     safe_mode_password: "{{ password }}"
   register: ad
+  retries: 3
+  until: ad is not failed
+  ignore_errors: true
 
 - name: reboot server
   win_reboot:
