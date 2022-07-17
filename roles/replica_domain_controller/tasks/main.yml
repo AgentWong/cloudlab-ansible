@@ -10,21 +10,3 @@
     safe_mode_password: "{{ password }}"
     state: domain_controller
   register: ad
-- name: reboot server
-  win_reboot:
-    pre_reboot_delay: 15
-    post_reboot_delay: 120
-  when: ad.reboot_required
-
-- name: Configure NLA Dependencies
-  win_service:
-    name: nlasvc
-    start_mode: delayed
-    dependencies: [ DNS, NTDS ]
-    dependency_action: add
-
-- name: Restart NLA
-  win_service:
-    name: nlasvc
-    state: restarted
-    force_dependent_services: yes
