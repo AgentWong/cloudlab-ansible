@@ -5,9 +5,11 @@
     win_dns_client:
       adapter_names: '*'
       ipv4_addresses: 
-      - "{{ dns_server }}"
+      - "{{ dns_server | default(omit) }}"
+    when: dns_server is defined
   - name: Set DNS Suffix
     win_shell: "Set-DnsClientGlobalSetting -SuffixSearchList @('{{ domain }}')"
+    when: dns_server is defined
   - name: Join Domain
     win_domain_membership:
       dns_domain_name: "{{ domain }}"

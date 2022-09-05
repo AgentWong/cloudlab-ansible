@@ -1,0 +1,5 @@
+---
+- hosts:
+    - "{{ hostname }}"
+  roles: 
+  - enterprise_certificate_authority
