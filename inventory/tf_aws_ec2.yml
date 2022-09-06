@@ -46,8 +46,10 @@ keyed_groups:
 
 hostnames:
 # a list in order of precedence for hostname variables.
-  - private-ip-address
   - name: tag:Name
     separator: '-'
   - name: dns-name
     separator: '-'
+
+compose:
+  ansible_host: private_ip_address
