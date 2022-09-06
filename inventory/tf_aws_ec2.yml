@@ -11,6 +11,8 @@ regions:
 # a fatal error
 strict: False
 
+use_contrib_script_compatible_sanitization: True
+
 keyed_groups:
   #  each aws ec2 instance has it own instance tags. create  
   #  a tag variable from those tags for ansible to use. 
