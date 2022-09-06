@@ -19,7 +19,6 @@ keyed_groups:
   # which can then be passed as a variable value for the host via -e flag
   - key: tags
     prefix: tag
-    separator: '-'
   #
   # the following keyed groups are from the aws url:
   # https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html#options   
@@ -31,7 +30,7 @@ keyed_groups:
   - key: tags.Applications
     separator: ''
   - key: tags.Name
-    separator: ''
+    separator: '-'
   - key: instance_type
     prefix: aws_instance_type
   - key: placement.region
