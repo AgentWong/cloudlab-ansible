@@ -44,7 +44,7 @@ keyed_groups:
 
 hostnames:
 # a list in order of precedence for hostname variables.
-  - name: private-ip-address
+  - private-ip-address
   - name: tag:Name
     separator: '-'
   - name: dns-name
